@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, JSX } from 'react';
 import Image from 'next/image';
 import { useTheme } from './ThemeContext';
 
-type HeroSectionProps = {
+interface HeroSectionProps {
   onScroll: () => void;
-};
+}
 
-const HeroSection = ({ onScroll }: HeroSectionProps) => {
+const HeroSection = ({ onScroll }: HeroSectionProps): JSX.Element => {
   const { isDarkMode, subTextClass } = useTheme();
   const heroRef = useRef<HTMLDivElement>(null);
   
@@ -49,12 +49,12 @@ const HeroSection = ({ onScroll }: HeroSectionProps) => {
                   : "0 0 40px rgba(8, 145, 178, 0.2)"
               }}
             >
-              L'innovation <br/>
+              L&apos;innovation <br/>
               <span className={isDarkMode ? "text-cyan-400" : "text-cyan-600"}>redéfinie.</span>
             </h1>
             
             <p className={`${subTextClass} text-lg mb-8 max-w-lg`}>
-              Bienvenue chez KobaTech, où la technologie rencontre l'excellence pour propulser votre entreprise vers l'avenir.
+              Bienvenue chez KobaTech, où la technologie rencontre l&apos;excellence pour propulser votre entreprise vers l&apos;avenir.
             </p>
             
             <div className="flex flex-wrap gap-4">

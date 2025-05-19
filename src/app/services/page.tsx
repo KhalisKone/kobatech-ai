@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { ThemeProvider } from '../../../components/ThemeContext';
-import { useTheme } from '../../../components/ThemeContext';
-import CurseurFuturiste from '../../../components/TechCursor';
-import MenuKobatech from '../../../components/MenuKobatech';
-import Footer from '../../../components/Footer';
-import ParticleBackground from '../../../components/ParticleBackground';
-import GlobalStyles from '../../../components/GlobalStyles';
+import { useState, useEffect, useRef, JSX } from 'react';
+import { ThemeProvider } from '../components/ThemeContext';
+import { useTheme } from '../components/ThemeContext';
+import CurseurFuturiste from '../components/TechCursor';
+import MenuKobatech from '../components/MenuKobatech';
+import Footer from '../components/Footer';
+import ParticleBackground from '../components/ParticleBackground';
+import GlobalStyles from '../components/GlobalStyles';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowRight, FiCheck, FiChevronDown, FiMail, FiPhone } from 'react-icons/fi';
 import { FaLaptopCode, FaMobileAlt, FaBrain, FaShieldAlt, FaDesktop, FaCloud, FaHome, FaMicrochip, FaNetworkWired, FaPrint, FaIndustry } from 'react-icons/fa';
@@ -119,7 +119,7 @@ function ServicesDetailSection() {
       id: 3,
       category: 'informatique',
       title: 'Intelligence artificielle',
-      description: 'Solutions d\'IA innovantes pour automatiser et optimiser vos processus.',
+      description: 'Solutions d&apos;IA innovantes pour automatiser et optimiser vos processus.',
       icon: <FaBrain className="text-xl" />,
       features: [
         'Apprentissage automatique',
@@ -241,7 +241,7 @@ function ServicesDetailSection() {
       id: 11,
       category: 'electronique',
       title: 'Impression 3D & Fabrication',
-      description: 'Services d\'impression 3D et de fabrication pour vos projets.',
+      description: 'Services d&apos;impression 3D et de fabrication pour vos projets.',
       icon: <FaPrint className="text-xl" />,
       features: [
         'Impression 3D haute précision',
@@ -256,13 +256,13 @@ function ServicesDetailSection() {
       id: 12,
       category: 'electronique',
       title: 'Électronique industrielle & automatisation',
-      description: 'Solutions d\'automatisation industrielle pour optimiser vos processus.',
+      description: 'Solutions d&apos;automatisation industrielle pour optimiser vos processus.',
       icon: <FaIndustry className="text-xl" />,
       features: [
         'Systèmes de contrôle industriel',
         'Automates programmables (PLC)',
         'SCADA et HMI',
-        'Systèmes d\'acquisition de données',
+        'Systèmes d&apos;acquisition de données',
         'Maintenance prédictive'
       ],
       color: 'bg-rose-500'
@@ -321,7 +321,7 @@ function ServicesDetailSection() {
               isDarkMode ? 'text-gray-300' : 'text-gray-600'
             }`}
           >
-            Découvrez notre gamme complète de services technologiques haut de gamme. De l'idée à la réalité, nous transformons vos visions en solutions concrètes avec excellence.
+            Découvrez notre gamme complète de services technologiques haut de gamme. De l&apos;idée à la réalité, nous transformons vos visions en solutions concrètes avec excellence.
           </motion.p>
         </div>
         
@@ -428,7 +428,7 @@ function ServicesCTASection() {
             viewport={{ once: true }}
             className={`text-lg mb-8 ${isDarkMode ? 'text-blue-100' : 'text-blue-800'}`}
           >
-            Contactez notre équipe d'experts pour discuter de votre projet et recevoir une solution sur mesure qui répond exactement à vos besoins.
+            Contactez notre équipe d&apos;experts pour discuter de votre projet et recevoir une solution sur mesure qui répond exactement à vos besoins.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -468,7 +468,7 @@ function ServicesFAQSection() {
   const faqItems = [
     {
       question: "Comment se déroule un projet avec KOBATECH AI ?",
-      answer: "Notre processus commence par une consultation initiale approfondie pour comprendre vos besoins spécifiques. Nous élaborons ensuite une proposition technique et financière détaillée. Une fois validée, notre équipe d'experts passe à la phase de conception et de développement, avec des points d'étape réguliers. Nous effectuons des tests rigoureux avant la livraison finale et proposons un accompagnement post-projet."
+      answer: "Notre processus commence par une consultation initiale approfondie pour comprendre vos besoins spécifiques. Nous élaborons ensuite une proposition technique et financière détaillée. Une fois validée, notre équipe d&apos;experts passe à la phase de conception et de développement, avec des points d&apos;étape réguliers. Nous effectuons des tests rigoureux avant la livraison finale et proposons un accompagnement post-projet."
     },
     {
       question: "Quels sont vos délais de réalisation pour un projet web ou électronique ?",
@@ -488,7 +488,7 @@ function ServicesFAQSection() {
     },
     {
       question: "Travaillez-vous avec des clients internationaux ? Quels sont vos modes de collaboration ?",
-      answer: "Oui, 40% de nos clients sont internationaux. Nous sommes habitués au travail à distance avec des outils collaboratifs performants (Jira, Slack, Zoom). Nous proposons des créneaux horaires flexibles pour s'adapter à votre fuseau et des réunions bilingues (Français/Anglais). Nos processus sont conçus pour une collaboration transparente à distance."
+      answer: "Oui, 40% de nos clients sont internationaux. Nous sommes habitués au travail à distance avec des outils collaboratifs performants (Jira, Slack, Zoom). Nous proposons des créneaux horaires flexibles pour s&apos;adapter à votre fuseau et des réunions bilingues (Français/Anglais). Nos processus sont conçus pour une collaboration transparente à distance."
     }
   ];
   
@@ -716,7 +716,11 @@ function ServicesContent() {
   const { isDarkMode, bgClass, textClass, overlayClass } = useTheme();
   const [loadingProgress, setLoadingProgress] = useState(0);
   
-  const cursorRef = useRef<{ updateProgress: (progress: number) => void }>(null);
+  interface CursorRefType {
+    updateProgress: (progress: number) => void;
+  }
+  
+  const cursorRef = useRef<CursorRefType>(null);
   
   // Effet pour animer la barre de chargement
   useEffect(() => {

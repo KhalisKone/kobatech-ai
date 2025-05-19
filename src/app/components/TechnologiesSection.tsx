@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import { useTheme } from './ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -10,7 +10,13 @@ import {
 } from 'react-icons/fi';
 
 // Types
-type Capability = {
+interface TechnologiesSectionProps {
+  id: string;
+  title: string;
+  isVisible: boolean;
+}
+
+interface Capability {
   id: string;
   name: string;
   description: string;
@@ -18,15 +24,9 @@ type Capability = {
   icon: React.ReactNode;
   category: 'informatics' | 'electronics';
   applications: string[];
-};
+}
 
-type SectionProps = {
-  id: string;
-  title: string;
-  isVisible: boolean;
-};
-
-const TechnologiesSection = ({ id, title, isVisible }: SectionProps) => {
+const TechnologiesSection = ({ id, title, isVisible }: TechnologiesSectionProps): JSX.Element => {
   const { isDarkMode, textClass, subTextClass } = useTheme();
   const [activeCategory, setActiveCategory] = useState<'informatics' | 'electronics' | 'all'>('all');
   const [expandedCapability, setExpandedCapability] = useState<string | null>(null);
@@ -183,6 +183,10 @@ const TechnologiesSection = ({ id, title, isVisible }: SectionProps) => {
   const [filtersRef, filtersInView] = useInView({ threshold: 0.2, triggerOnce: true });
   const [cardsRef, cardsInView] = useInView({ threshold: 0.15, triggerOnce: true });
 
+  const handleScroll = (event: UIEvent): void => {
+    // Your scroll handling logic
+  };
+
   return (
     <motion.section
       initial="hidden"
@@ -283,7 +287,7 @@ const TechnologiesSection = ({ id, title, isVisible }: SectionProps) => {
               key={category.key}
               whileHover={{ scale: 1.05, boxShadow: `0 6px 16px ${primaryPurple}30` }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => setActiveCategory(category.key as any)}
+              onClick={() => setActiveCategory(category.key as 'informatics' | 'electronics' | 'all')}
               className={`px-8 py-3 rounded-full font-medium text-sm transition-all duration-300 ${
                 activeCategory === category.key
                   ? 'text-white'

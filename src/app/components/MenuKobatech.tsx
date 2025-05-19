@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, JSX } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -9,7 +9,13 @@ interface MenuKobatechProps {
   toggleDarkMode: () => void;
 }
 
-export default function MenuKobatech({ isDarkMode, toggleDarkMode }: MenuKobatechProps) {
+interface NavItem {
+  name: string;
+  href: string;
+  icon: string;
+}
+
+const MenuKobatech = ({ isDarkMode, toggleDarkMode }: MenuKobatechProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
@@ -129,7 +135,7 @@ export default function MenuKobatech({ isDarkMode, toggleDarkMode }: MenuKobatec
 
           {/* Menu Desktop avec animation hover */}
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {navItems.map((item, index) => {
+            {navItems.map((item) => {
               const active = isActive(item.href);
               return (
                 <Link
@@ -140,12 +146,12 @@ export default function MenuKobatech({ isDarkMode, toggleDarkMode }: MenuKobatec
                       ? `${isDarkMode ? 'text-cyan-400 bg-cyan-900/30' : 'text-cyan-600 bg-cyan-50'} ${glowEffect}` 
                       : `${isDarkMode ? 'text-gray-300 hover:text-cyan-300' : 'text-gray-700 hover:text-cyan-600'}`
                     }`}
-                  onMouseEnter={() => setHoverIndex(index)}
+                  onMouseEnter={() => setHoverIndex(null)}
                   onMouseLeave={() => setHoverIndex(null)}
                 >
                   {/* Icon */}
                   <svg 
-                    className={`w-4 h-4 mr-1 transition-transform duration-300 ${hoverIndex === index ? 'scale-125' : ''}`} 
+                    className={`w-4 h-4 mr-1 transition-transform duration-300 ${hoverIndex === null ? 'scale-125' : ''}`} 
                     stroke="currentColor" 
                     fill="none" 
                     viewBox="0 0 24 24"
@@ -164,7 +170,7 @@ export default function MenuKobatech({ isDarkMode, toggleDarkMode }: MenuKobatec
                   {active && (
                     <span className="absolute -left-1 -top-1 w-2 h-2 rounded-full bg-cyan-400 opacity-70 animate-pulse"></span>
                   )}
-                  {hoverIndex === index && !active && (
+                  {hoverIndex === null && !active && (
                     <span className="absolute -right-1 -bottom-1 w-1.5 h-1.5 rounded-full bg-cyan-500 opacity-50"></span>
                   )}
                 </Link>
@@ -245,7 +251,7 @@ export default function MenuKobatech({ isDarkMode, toggleDarkMode }: MenuKobatec
             </div>
             
             <div className="divide-y divide-gray-800/20">
-              {navItems.map((item, index) => {
+              {navItems.map((item) => {
                 const active = isActive(item.href);
                 return (
                   <Link
@@ -385,3 +391,5 @@ export default function MenuKobatech({ isDarkMode, toggleDarkMode }: MenuKobatec
     </header>
   );
 }
+
+export default MenuKobatech;

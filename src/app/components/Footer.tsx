@@ -1,16 +1,38 @@
 "use client";
 
 import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, JSX } from 'react';
 import { useTheme } from './ThemeContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-const Footer = () => {
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface SocialLink {
+  name: string;
+  icon: string;
+  color: string;
+}
+
+interface CounterProps {
+  end: number;
+  duration?: number;
+}
+
+interface Stat {
+  label: string;
+  value: number;
+  icon: string;
+}
+
+const Footer = (): JSX.Element => {
   const { isDarkMode, subTextClass, gradientText } = useTheme();
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [hoverItem, setHoverItem] = useState<string | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState<Position>({ x: 0, y: 0 });
   const footerRef = useRef<HTMLDivElement>(null);
 
   // Animation du texte pour le copyright
@@ -25,7 +47,7 @@ const Footer = () => {
   
   // Effet de suivi de souris pour les effets lumineux
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent): void => {
       if (footerRef.current) {
         const rect = footerRef.current.getBoundingClientRect();
         setMousePosition({
@@ -82,7 +104,7 @@ const Footer = () => {
   };
 
   // Counting animation component
-  const Counter = ({ end, duration = 2000 }: { end: number; duration?: number }) => {
+  const Counter = ({ end, duration = 2000 }: CounterProps): JSX.Element => {
     const [count, setCount] = useState(0);
     const { ref, inView } = useInView({
       triggerOnce: true,
@@ -594,7 +616,7 @@ const Footer = () => {
                 >
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </motion.svg>
-                {' '}par l'équipe KobaTech
+                {' '}par l&apos;équipe KobaTech
               </span>
             </motion.div>
           </motion.div>

@@ -1,24 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { ThemeProvider } from '../../../components/ThemeContext';
-import { useTheme } from '../../../components/ThemeContext';
-import CurseurFuturiste from '../../../components/TechCursor';
-import MenuKobatech from '../../../components/MenuKobatech';
-import HeroSection from '../../../components/HeroSection';
-import ServicesSection from '../../../components/ServicesSection';
-import TechnologiesSection from '../../../components/TechnologiesSection';
-import ContactSection from '../../../components/ContactSection';
-import Footer from '../../../components/Footer';
-import ParticleBackground from '../../../components/ParticleBackground';
-import GlobalStyles from '../../../components/GlobalStyles';
+import { ThemeProvider } from '../components/ThemeContext';
+import { useTheme } from '../components/ThemeContext';
+import CurseurFuturiste, { TechCursorRef } from '../components/TechCursor';
+import MenuKobatech from '../components/MenuKobatech';
+import HeroSection from '../components/HeroSection';
+import ServicesSection from '../components/ServicesSection';
+import TechnologiesSection from '../components/TechnologiesSection';
+import ContactSection from '../components/ContactSection';
+import Footer from '../components/Footer';
+import ParticleBackground from '../components/ParticleBackground';
+import GlobalStyles from '../components/GlobalStyles';
 
-// Define the interface for the CurseurFuturiste component ref
-interface CurseurFuturisteRef {
-  updateProgress: (progress: number) => void;
-}
-
-// Composant interne qui utilise le contexte
 function AccueilKobatechContent() {
   const { isDarkMode, toggleDarkMode, bgClass, textClass, overlayClass } = useTheme();
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -28,20 +22,25 @@ function AccueilKobatechContent() {
     contact: false
   });
   
-  // Use the defined interface for the ref
-  const cursorRef = useRef<CurseurFuturisteRef>(null);
+  // Use the imported TechCursorRef interface with null initial value
+  const cursorRef = useRef<TechCursorRef | null>(null);
   
-  // Effet pour animer la barre de chargement
   useEffect(() => {
     const interval = setInterval(() => {
       setLoadingProgress(prev => {
-        const newProgress = prev + 1;
+        // Mise à jour du curseur avec la progression
         if (cursorRef.current) {
-          cursorRef.current.updateProgress(newProgress);
+          cursorRef.current.updateProgress(prev + 2);
         }
-        return newProgress >= 100 ? 100 : newProgress;
+        
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        
+        return prev + 2;
       });
-    }, 30);
+    }, 50);
 
     return () => clearInterval(interval);
   }, []);
@@ -86,7 +85,6 @@ function AccueilKobatechContent() {
       
       {/* Section Hero */}
       <HeroSection onScroll={() => {
-        // Implement scroll functionality here or remove if not needed
         console.log('Hero section scrolled');
       }} />
       
@@ -124,7 +122,7 @@ function AccueilKobatechContent() {
 }
 
 // Composant principal qui englobe le contenu avec le ThemeProvider
-export default function AccueilKobatech() {
+export default function Page() {
   return (
     <ThemeProvider>
       <AccueilKobatechContent />

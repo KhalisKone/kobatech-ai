@@ -1,13 +1,23 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, JSX } from 'react';
 import Image from 'next/image';
-import CurseurFuturiste from '../../components/TechCursor';
+import TechCursor, { TechCursorRef } from './components/TechCursor'; // Fixed import path
 
-export default function ParticleBackground() {
-  const [particles, setParticles] = useState([]);
-  const canvasRef = useRef(null);
-  const cursorRef = useRef(null);
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  speedX: number;
+  speedY: number;
+  opacity: number;
+}
+
+export default function Home(): JSX.Element {
+  
+  const cursorRef = useRef<TechCursorRef | null>(null);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [logoScale, setLogoScale] = useState(1);
   const [textOpacity, setTextOpacity] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -89,12 +99,14 @@ export default function ParticleBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    let animationFrameId: number;
     
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     };
     
     resizeCanvas();
@@ -147,7 +159,9 @@ export default function ParticleBackground() {
     
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      window.cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
     };
   }, [particles]);
   
@@ -167,7 +181,7 @@ export default function ParticleBackground() {
           style={{ 
             transform: `scale(${logoScale})`,
             animation: "float 3s ease-in-out infinite"
-          }}
+          } as React.CSSProperties}
         >
           {/* Container du logo avec overlay futuriste */}
           <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
@@ -234,7 +248,7 @@ export default function ParticleBackground() {
               fontWeight: 300
             }}
           >
-            DE L'IDÉE À LA RÉALISATION
+            DE L&apos;IDÉE À LA RÉALISATION
           </p>
           
           {/* Ligne décorative sous le texte */}
@@ -279,7 +293,7 @@ export default function ParticleBackground() {
       </div>
       
       {/* Intégration du curseur personnalisé */}
-      <CurseurFuturiste ref={cursorRef} progress={loadingProgress} />
+      <TechCursor ref={cursorRef} progress={loadingProgress} />
       
       {/* Style global pour l'animation de flottement */}
       <style jsx global>{`
@@ -293,45 +307,45 @@ export default function ParticleBackground() {
         
         @keyframes float {
           0% {
-            transform: translateY(0px) scale(${logoScale});
+        transform: translateY(0px) scale(${logoScale});
           }
           50% {
-            transform: translateY(-15px) scale(${logoScale});
+        transform: translateY(-15px) scale(${logoScale});
           }
           100% {
-            transform: translateY(0px) scale(${logoScale});
+        transform: translateY(0px) scale(${logoScale});
           }
         }
         
         @keyframes pulse {
           0% {
-            opacity: 0.2;
-            transform: scale(0.95);
+        opacity: 0.2;
+        transform: scale(0.95);
           }
           100% {
-            opacity: 0.4;
-            transform: scale(1.05);
+        opacity: 0.4;
+        transform: scale(1.05);
           }
         }
         
         @keyframes rotate {
           from {
-            transform: rotate(0deg);
+        transform: rotate(0deg);
           }
           to {
-            transform: rotate(360deg);
+        transform: rotate(360deg);
           }
         }
         
         @keyframes gradient {
           0% {
-            background-position: 0% 50%;
+        background-position: 0% 50%;
           }
           50% {
-            background-position: 100% 50%;
+        background-position: 100% 50%;
           }
           100% {
-            background-position: 0% 50%;
+        background-position: 0% 50%;
           }
         }
       `}</style>
