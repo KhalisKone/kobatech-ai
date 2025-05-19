@@ -19,13 +19,14 @@ type Technology = {
   category: 'informatique' | 'electronique';
 };
 
-type SectionProps = {
+// Mise à jour de l'interface pour inclure isVisible
+interface ServicesSectionProps {
   id: string;
   title: string;
-  isVisible: boolean;
-};
+  isVisible?: boolean; // Ajouter isVisible comme prop optionnelle
+}
 
-const ServicesSection = ({ id, title, isVisible }: SectionProps) => {
+const ServicesSection = ({ id, title, isVisible = false }: ServicesSectionProps) => {
   const { isDarkMode, textClass, subTextClass } = useTheme();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -196,12 +197,20 @@ const ServicesSection = ({ id, title, isVisible }: SectionProps) => {
     ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800'
     : 'bg-gradient-to-b from-gray-50 via-gray-50 to-white';
 
+  const handleScroll = (event: UIEvent): void => {
+    // Your scroll handling logic
+  };
+
   return (
     <motion.section 
       ref={sectionRef}
       style={{ opacity, y: translateY }}
       className={`relative py-20 overflow-hidden ${backgroundStyle}`}
       id={id}
+      // Utilisation de la prop isVisible pour les animations conditionnelles si nécessaire
+      initial="hidden"
+      animate={isVisible || titleInView ? "visible" : "hidden"}
+      variants={titleVariants}
     >
       {/* Grille de fond améliorée */}
       <div className="absolute inset-0 opacity-10">

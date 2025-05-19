@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
-import { useTheme } from './ThemeContext';
+import { JSX, useEffect, useRef } from 'react';
 
-type ParticleBackgroundProps = {
-  mousePosition: { x: number, y: number };
-};
+// Define the props interface
+interface ParticleBackgroundProps {
+  isDarkMode: boolean;
+}
 
-const ParticleBackground = ({ mousePosition }: ParticleBackgroundProps) => {
-  const { isDarkMode } = useTheme();
+const ParticleBackground = ({ isDarkMode }: ParticleBackgroundProps): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   // Effet pour l'animation de fond
@@ -20,14 +19,14 @@ const ParticleBackground = ({ mousePosition }: ParticleBackgroundProps) => {
     if (!ctx) return;
     
     let animationFrameId: number;
-    let particles: Array<{
+    let particles: {
       x: number;
       y: number;
       size: number;
       speedX: number;
       speedY: number;
       opacity: number;
-    }> = [];
+    }[] = [];
     
     // Initialisation des particules
     const initParticles = () => {

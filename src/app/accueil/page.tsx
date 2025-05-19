@@ -13,6 +13,11 @@ import Footer from '../../../components/Footer';
 import ParticleBackground from '../../../components/ParticleBackground';
 import GlobalStyles from '../../../components/GlobalStyles';
 
+// Define the interface for the CurseurFuturiste component ref
+interface CurseurFuturisteRef {
+  updateProgress: (progress: number) => void;
+}
+
 // Composant interne qui utilise le contexte
 function AccueilKobatechContent() {
   const { isDarkMode, toggleDarkMode, bgClass, textClass, overlayClass } = useTheme();
@@ -23,7 +28,8 @@ function AccueilKobatechContent() {
     contact: false
   });
   
-  const cursorRef = useRef<{ updateProgress: (progress: number) => void }>(null);
+  // Use the defined interface for the ref
+  const cursorRef = useRef<CurseurFuturisteRef>(null);
   
   // Effet pour animer la barre de chargement
   useEffect(() => {
@@ -79,16 +85,31 @@ function AccueilKobatechContent() {
       />
       
       {/* Section Hero */}
-      <HeroSection />
+      <HeroSection onScroll={() => {
+        // Implement scroll functionality here or remove if not needed
+        console.log('Hero section scrolled');
+      }} />
       
       {/* Section Services */}
-      <ServicesSection isVisible={isVisible.services} />
+      <ServicesSection 
+        id="services" 
+        title="Nos Services" 
+        isVisible={isVisible.services}
+      />
       
       {/* Section Technologies */}
-      <TechnologiesSection isVisible={isVisible.technologies} />
+      <TechnologiesSection 
+        id="technologies" 
+        title="Nos Technologies" 
+        isVisible={isVisible.technologies} 
+      />
       
       {/* Section Contact */}
-      <ContactSection isVisible={isVisible.contact} />
+      <ContactSection 
+        id="contact" 
+        title="Contactez-nous" 
+        isVisible={isVisible.contact} 
+      />
       
       {/* Footer */}
       <Footer />
